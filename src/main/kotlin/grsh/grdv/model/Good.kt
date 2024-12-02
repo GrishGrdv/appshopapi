@@ -1,10 +1,12 @@
 package grsh.grdv.model
 
 import io.micronaut.data.annotation.*
+import io.micronaut.data.model.DataType
 import io.micronaut.data.repository.CrudRepository
+import java.math.BigDecimal
 
-@MappedEntity("good_category")
-data class GoodCategory(
+@MappedEntity("good")
+data class Good(
     @Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
     val id: Long,
@@ -13,11 +15,13 @@ data class GoodCategory(
 
     val description: String,
 
-    @Relation(value = Relation.Kind.ONE_TO_MANY, mappedBy = "good_category")
-    val goods: List<Good>,
+    val price: BigDecimal,
+
+    @Relation(value = Relation.Kind.MANY_TO_ONE)
+    val category: GoodCategory,
 ) {
     companion object {
         @Repository
-        interface Repo : CrudRepository<GoodCategory, Long?>
+        interface Repo : CrudRepository<Good, Long?>
     }
 }
