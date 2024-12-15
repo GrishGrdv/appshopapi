@@ -2,9 +2,9 @@ package grsh.grdv.model
 
 import io.micronaut.data.annotation.*
 import io.micronaut.data.repository.CrudRepository
-import io.micronaut.serde.annotation.Serdeable.Deserializable
+import io.micronaut.serde.annotation.Serdeable
 
-@Deserializable
+@Serdeable
 @MappedEntity("recipient")
 data class Recipient(
     @Id

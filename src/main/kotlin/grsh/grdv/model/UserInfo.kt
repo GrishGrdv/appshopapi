@@ -19,5 +19,4 @@ data class UserInfo(
         @Repository
         interface Repo : CrudRepository<UserInfo, Long?>
     }
-
 }

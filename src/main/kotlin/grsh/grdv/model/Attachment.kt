@@ -6,8 +6,6 @@ import io.micronaut.data.repository.CrudRepository
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.awt.print.Book
-
 
 @Entity
 @Table(name = "attachment")

@@ -3,9 +3,9 @@ package grsh.grdv.model
 import io.micronaut.data.annotation.*
 import io.micronaut.data.model.DataType
 import io.micronaut.data.repository.CrudRepository
-import io.micronaut.serde.annotation.Serdeable.Deserializable
+import io.micronaut.serde.annotation.Serdeable
 
-@Deserializable
+@Serdeable
 @MappedEntity("user_basket")
 data class UserBasket(
     @Id
@@ -18,7 +18,7 @@ data class UserBasket(
     val goods: List<GoodCount>
 ) {
     companion object {
-        @Deserializable
+        @Serdeable
         data class GoodCount(
             val goodId: Long,
             val count: Int,
