@@ -7,6 +7,7 @@ import io.micronaut.security.errors.IssuingAnAccessTokenErrorCode.INVALID_GRANT
 import io.micronaut.security.errors.OauthErrorResponseException
 import io.micronaut.security.token.event.RefreshTokenGeneratedEvent
 import io.micronaut.security.token.refresh.RefreshTokenPersistence
+import io.micronaut.transaction.annotation.Transactional
 import jakarta.inject.Singleton
 import org.reactivestreams.Publisher
 import reactor.core.publisher.Flux
@@ -23,7 +24,7 @@ class CustomRefreshTokenPersistence(private val refreshTokenRepository: RefreshT
         if (event.refreshToken != null && event.authentication != null && event.authentication.name != null) {
             val payload = event.refreshToken
             refreshTokenRepository.save(RefreshToken(
-                id = null,
+                id = 1L,
                 username = event.authentication.name,
                 refreshToken = event.refreshToken,
                 revoked = false,

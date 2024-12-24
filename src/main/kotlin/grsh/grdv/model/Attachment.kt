@@ -1,14 +1,12 @@
 package grsh.grdv.model
 
-import io.micronaut.data.annotation.GeneratedValue
-import io.micronaut.data.annotation.Repository
-import io.micronaut.data.repository.CrudRepository
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import io.micronaut.data.annotation.*
+import io.micronaut.data.jdbc.annotation.JdbcRepository
+import io.micronaut.data.model.query.builder.sql.Dialect
+import io.micronaut.data.repository.PageableRepository
+import io.micronaut.data.repository.reactive.ReactorPageableRepository
 
-@Entity
-@Table(name = "attachment")
+@MappedEntity("attachment")
 data class Attachment(
     @Id
     @GeneratedValue(GeneratedValue.Type.AUTO)
@@ -17,9 +15,9 @@ data class Attachment(
     val name: String,
 
     val path: String,
-) {
-    companion object {
-        @Repository
-        interface Repo : CrudRepository<Attachment, Long>
-    }
+)
+
+@JdbcRepository(dialect = Dialect.POSTGRES)
+abstract class  AttachmentRepo : PageableRepository<Attachment, Long> {
+
 }

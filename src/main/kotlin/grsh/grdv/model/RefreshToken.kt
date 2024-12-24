@@ -1,53 +1,33 @@
 package grsh.grdv.model
 
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.data.annotation.*
-import io.micronaut.data.repository.CrudRepository
-import io.micronaut.transaction.annotation.Transactional
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
+import io.micronaut.data.annotation.DateCreated
+import io.micronaut.data.annotation.GeneratedValue
+import io.micronaut.data.annotation.Id
+import io.micronaut.data.annotation.MappedEntity
+import io.micronaut.data.jdbc.annotation.JdbcRepository
+import io.micronaut.data.model.query.builder.sql.Dialect
+import io.micronaut.data.repository.PageableRepository
+import io.micronaut.data.repository.reactive.ReactorPageableRepository
 import java.time.LocalDateTime
 import java.util.*
 
-@MappedEntity("refresh_token")
+@MappedEntity(value = "refresh_token")
 data class RefreshToken(
     @Id
-    @GeneratedValue
-    val id: Long?,
+    @GeneratedValue(GeneratedValue.Type.IDENTITY)
+    var id: Long,
 
-    val username: String,
-    val refreshToken: String,
-    val revoked: Boolean,
+    var username: String,
+    var refreshToken: String,
+    var revoked: Boolean,
 
     @DateCreated
-    val dateCreated: LocalDateTime?,
-) {
+    var dateCreated: LocalDateTime?,
+)
 
-    companion object {
-        @Repository
-        interface Repo : CrudRepository<RefreshToken, Long?> {
+@JdbcRepository(dialect = Dialect.POSTGRES)
+abstract class  RefreshTokenRepo : PageableRepository<RefreshToken, Long> {
+    abstract fun findByRefreshToken(token: String): Optional<RefreshToken>
 
-            fun findByRefreshToken(token: String): Optional<RefreshToken>
-
-            fun updateByUsername(@NonNull username: String, @NonNull revoked: Boolean)
-
-            @Transactional
-            fun save(
-                username: @NonNull @NotBlank String?,
-                refreshToken: @NonNull @NotBlank String?,
-                revoked: @NonNull @NotNull Boolean?
-            ): RefreshToken?
-        }
-    }
-}
-
-@Repository
-interface RefreshTokenRepo : CrudRepository<RefreshToken, Long?> {
-
-    fun findByRefreshToken(token: String): Optional<RefreshToken>
-
-    fun updateByUsername(username: String, revoked: Boolean)
-
-    @Transactional
-    fun save(refreshToken: RefreshToken): RefreshToken?
+    abstract fun updateByUsername(username: String, revoked: Boolean)
 }

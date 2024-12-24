@@ -1,8 +1,14 @@
 package grsh.grdv.model
 
-import io.micronaut.data.annotation.*
+import io.micronaut.data.annotation.GeneratedValue
+import io.micronaut.data.annotation.Id
+import io.micronaut.data.annotation.MappedEntity
+import io.micronaut.data.annotation.TypeDef
+import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.DataType
-import io.micronaut.data.repository.CrudRepository
+import io.micronaut.data.model.query.builder.sql.Dialect
+import io.micronaut.data.repository.PageableRepository
+import io.micronaut.data.repository.reactive.ReactorPageableRepository
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -29,8 +35,10 @@ data class Transaction(
             SUCCESS,
             ERROR
         }
-
-        @Repository
-        interface Repo : CrudRepository<Transaction, Long?>
     }
+}
+
+@JdbcRepository(dialect = Dialect.POSTGRES)
+abstract class  TransactionRepo : PageableRepository<Transaction, Long> {
+
 }

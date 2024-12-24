@@ -1,10 +1,11 @@
 package grsh.grdv.model
 
-import grsh.grdv.model.UserBasket.Companion.GoodCount
 import io.micronaut.data.annotation.*
+import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.DataType
-import io.micronaut.data.repository.CrudRepository
-import jakarta.persistence.ManyToOne
+import io.micronaut.data.model.query.builder.sql.Dialect
+import io.micronaut.data.repository.PageableRepository
+import io.micronaut.data.repository.reactive.ReactorPageableRepository
 
 @MappedEntity("checkout")
 data class Checkout(
@@ -29,9 +30,9 @@ data class Checkout(
 
     @field:TypeDef(type = DataType.JSON)
     val recipient: Recipient
-) {
-    companion object {
-        @Repository
-        interface Repo : CrudRepository<Checkout, Long>
-    }
+)
+
+@JdbcRepository(dialect = Dialect.POSTGRES)
+abstract class  CheckoutRepo : PageableRepository<Checkout, Long> {
+
 }
