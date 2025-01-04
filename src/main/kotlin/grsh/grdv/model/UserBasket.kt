@@ -14,14 +14,14 @@ import io.micronaut.serde.annotation.Serdeable
 @Serdeable
 @MappedEntity("user_basket")
 data class UserBasket(
-    @Id
-    @GeneratedValue
+    @field:Id
+    @GeneratedValue(GeneratedValue.Type.AUTO)
     val id: Long,
 
     val userId: Long,
 
     @field:TypeDef(type = DataType.JSON)
-    val goods: List<GoodCount>
+    val goods: List<Long>
 ) {
     companion object {
         @Serdeable

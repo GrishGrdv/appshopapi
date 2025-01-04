@@ -13,7 +13,7 @@ import java.util.*
 
 @MappedEntity(value = "refresh_token")
 data class RefreshToken(
-    @Id
+    @field:Id
     @GeneratedValue(GeneratedValue.Type.IDENTITY)
     var id: Long,
 

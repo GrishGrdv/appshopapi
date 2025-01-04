@@ -6,11 +6,13 @@ import io.micronaut.data.model.DataType
 import io.micronaut.data.model.query.builder.sql.Dialect
 import io.micronaut.data.repository.PageableRepository
 import io.micronaut.data.repository.reactive.ReactorPageableRepository
+import io.micronaut.serde.annotation.Serdeable
 
+@Serdeable
 @MappedEntity("checkout")
 data class Checkout(
-    @Id
-    @GeneratedValue
+    @field:Id
+    @GeneratedValue(GeneratedValue.Type.AUTO)
     val id: Long,
 
     @Relation(value = Relation.Kind.MANY_TO_ONE)

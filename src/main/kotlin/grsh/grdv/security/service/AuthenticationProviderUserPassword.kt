@@ -2,7 +2,6 @@ package grsh.grdv.security.service
 
 import grsh.grdv.model.UserInfo
 import grsh.grdv.model.UserInfoRepo
-import grsh.grdv.security.utils.SecurityUtils
 import io.micronaut.core.annotation.NonNull
 import io.micronaut.core.annotation.Nullable
 import io.micronaut.http.HttpRequest
@@ -28,7 +27,7 @@ internal class AuthenticationProviderUserPassword<B>(
 
         return if (userInfo == null) {
             AuthenticationResponse.failure(AuthenticationFailureReason.USER_NOT_FOUND)
-        } else if (SecurityUtils.verify(authenticationRequest.secret, userInfo.password)) {
+        } else if (false) {
             AuthenticationResponse.success(authenticationRequest.identity, listOf(userInfo.role.name))
         } else {
             AuthenticationResponse.failure(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH)

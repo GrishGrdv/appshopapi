@@ -13,8 +13,8 @@ import io.micronaut.serde.annotation.Serdeable
 @Serdeable
 @MappedEntity("recipient")
 data class Recipient(
-    @Id
-    @GeneratedValue()
+    @field:Id
+    @GeneratedValue(GeneratedValue.Type.AUTO)
     val id: Long,
     val firstName: String,
     val lastName: String,

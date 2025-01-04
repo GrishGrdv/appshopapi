@@ -9,6 +9,12 @@ import io.micronaut.security.rules.SecurityRule
 import java.security.Principal
 
 
+
+// registration
+// reset_password
+// login
+// logout
+// refresh_token
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/persons")
 class TestController {

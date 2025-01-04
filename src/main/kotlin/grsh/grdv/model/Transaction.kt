@@ -1,9 +1,6 @@
 package grsh.grdv.model
 
-import io.micronaut.data.annotation.GeneratedValue
-import io.micronaut.data.annotation.Id
-import io.micronaut.data.annotation.MappedEntity
-import io.micronaut.data.annotation.TypeDef
+import io.micronaut.data.annotation.*
 import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.DataType
 import io.micronaut.data.model.query.builder.sql.Dialect
@@ -11,15 +8,20 @@ import io.micronaut.data.repository.PageableRepository
 import io.micronaut.data.repository.reactive.ReactorPageableRepository
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import io.micronaut.serde.annotation.Serdeable
 
+@Serdeable
 @MappedEntity("transaction")
 data class Transaction(
-    @Id
-    @GeneratedValue
+    @field:Id
+    @GeneratedValue(GeneratedValue.Type.AUTO)
     val id: Long,
 
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime,
+    @DateCreated
+    var createdAt: LocalDateTime,
+
+    @DateUpdated
+    var updatedAt: LocalDateTime,
 
     @field:TypeDef(type = DataType.STRING)
     val status: TransactionStatus,

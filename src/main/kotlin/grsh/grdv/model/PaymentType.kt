@@ -7,11 +7,13 @@ import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.query.builder.sql.Dialect
 import io.micronaut.data.repository.PageableRepository
 import io.micronaut.data.repository.reactive.ReactorPageableRepository
+import io.micronaut.serde.annotation.Serdeable
 
+@Serdeable
 @MappedEntity("payment_type")
 data class PaymentType(
-    @Id
-    @GeneratedValue()
+    @field:Id
+    @GeneratedValue(GeneratedValue.Type.AUTO)
     val id: Long,
     val title: String,
     val description: String

@@ -7,20 +7,23 @@ import io.micronaut.data.annotation.Relation
 import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.query.builder.sql.Dialect
 import io.micronaut.data.repository.PageableRepository
+import io.micronaut.serde.annotation.Serdeable
 
+@Serdeable
 @MappedEntity("user_info")
-data class UserInfo(
-    @Id
-    @GeneratedValue
-    var id: Long,
-    var name: String,
+class UserInfo(
+    @field:Id
+    @GeneratedValue(GeneratedValue.Type.AUTO)
+    var id: Long?,
+    var name: String?,
     var email: String,
-    var password: String,
     var role: Role,
 
     @Relation(value = Relation.Kind.ONE_TO_MANY, mappedBy = "recipient")
     var recipient: List<Recipient>,
 ) {
+    constructor(email: String, role: Role): this(null, null, email, role, listOf())
+
     companion object {
         enum class Role {
             ADMIN,
@@ -32,4 +35,5 @@ data class UserInfo(
 @JdbcRepository(dialect = Dialect.POSTGRES)
 abstract class  UserInfoRepo : PageableRepository<UserInfo, Long> {
     abstract fun findByName(name: String): UserInfo?
+    abstract fun findByEmail(email: String): UserInfo?
 }
