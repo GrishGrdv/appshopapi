@@ -18,11 +18,15 @@ data class GoodCategory(
 
     var description: String = "",
 
+    var parentGoodCategory: Long?,
+
     @Relation(value = Relation.Kind.ONE_TO_MANY, mappedBy = "good_category")
     var goods: List<Good> = listOf(),
 )
 
 @JdbcRepository(dialect = Dialect.POSTGRES)
 abstract class  GoodCategoryRepo : PageableRepository<GoodCategory, Long> {
-
+    abstract fun findAllByParentGoodCategoryIsNull(): List<GoodCategory>
+    abstract fun findAllByParentGoodCategory(parentId: Long): List<GoodCategory>
+    abstract fun countByParentGoodCategory(parentId: Long?): Long
 }

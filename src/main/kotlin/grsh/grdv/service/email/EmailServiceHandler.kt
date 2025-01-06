@@ -30,7 +30,6 @@ internal class EmailServiceHandler(
         val contentEmail = TemplateUtils.buildContentByTemplate(emailMessage.messageType.pathTemplateContent, binding)
 
         emailSender.send(Email.builder()
-            .from("sender@example.com")
             .to("john@example.com")
             .subject(titleEmail)
             .body(MultipartBody(contentEmail, titleEmail))
@@ -49,7 +48,6 @@ internal class EmailServiceHandler(
         val contentEmail = TemplateUtils.buildContentByTemplate(emailMessage.messageType.pathTemplateContent, binding)
 
         emailSender.send(Email.builder()
-            .from("sender@example.com")
             .to("john@example.com")
             .subject(titleEmail)
             .body(MultipartBody(contentEmail, titleEmail))

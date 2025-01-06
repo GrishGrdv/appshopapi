@@ -4,30 +4,29 @@ import io.micronaut.context.annotation.Property
 import io.micronaut.email.javamail.sender.MailPropertiesProvider
 import io.micronaut.email.javamail.sender.SessionProvider
 import jakarta.inject.Singleton
-import java.util.Properties
 import jakarta.mail.Authenticator
 import jakarta.mail.PasswordAuthentication
 import jakarta.mail.Session
+import java.util.*
 
 @Singleton
 class OciSessionProvider(
-    provider: MailPropertiesProvider,
-    @Property(name = "smtp.user") user: String,
-    @Property(name = "smtp.password") password: String
+    @Property(name = "javamail.authentication.username") val user: String,
+    @Property(name = "javamail.authentication.password") val password: String
 ) : SessionProvider {
 
-    private val properties: Properties
-    private val user: String
-    private val password: String
 
-    init {
-        properties = provider.mailProperties()
-        this.user = user
-        this.password = password
-    }
 
-    override fun session(): Session =
-        Session.getInstance(properties, object : Authenticator() {
+    override fun session(): Session {
+        val emailProperties = Properties()
+        emailProperties["mail.transport.protocol"] = "smtps"
+        emailProperties["mail.smtp.auth"] = true
+        emailProperties["mail.smtp.host"] = "smtp.yandex.ru"
+        emailProperties["mail.smtp.port"] = 465
+        emailProperties["mail.smtp.user"] = "grigorygrodov"
+
+        return Session.getInstance(emailProperties, object : Authenticator() {
             override fun getPasswordAuthentication() = PasswordAuthentication(user, password)
         })
+    }
 }

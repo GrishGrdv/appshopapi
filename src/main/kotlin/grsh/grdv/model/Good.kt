@@ -6,6 +6,7 @@ import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.data.annotation.Query
 import io.micronaut.data.annotation.Relation
 import io.micronaut.data.jdbc.annotation.JdbcRepository
+import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.data.model.query.builder.sql.Dialect
 import io.micronaut.data.repository.PageableRepository
@@ -33,6 +34,16 @@ data class Good(
 @JdbcRepository(dialect = Dialect.POSTGRES)
 abstract class  GoodRepo : PageableRepository<Good, Long> {
 
-    @Query("SELECT * FROM good WHERE category = :category")
-    abstract fun findAllByCategory(category: Long, pageable: Pageable): List<Good>
+    @Query("SELECT * FROM good WHERE category in :category AND (name ilike :name OR description ilike :name) " +
+            "AND price > :minPrice AND price < :maxPrice ORDER BY :")
+    abstract fun findAllByCategoryAndSearchParameters(
+        category: List<Long>,
+        name: String,
+        maxPrice: BigDecimal,
+        minPrice: BigDecimal,
+        pageable: Pageable
+    ): Page<Good>
+
+    @Query("SELECT * FROM good WHERE (name ilike :name OR description ilike :name) AND price > :minPrice AND price < :maxPrice")
+    abstract fun findAllBySearchParameters(category: Long, pageable: Pageable): Page<Good>
 }

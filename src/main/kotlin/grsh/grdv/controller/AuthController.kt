@@ -5,7 +5,9 @@ import grsh.grdv.service.UserService
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
+import jakarta.annotation.security.PermitAll
 
+@PermitAll
 @Controller("/auth")
 class AuthController(
     private val userService: UserService
@@ -13,6 +15,6 @@ class AuthController(
 
     @Post("/login")
     fun login(@Body loginData: LoginEmailDto) {
-
+        userService.sendOtpEmail(loginData.email)
     }
 }

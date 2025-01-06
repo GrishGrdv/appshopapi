@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.codehaus.groovy:groovy-templates:3.0.19'
     implementation("io.micrometer:context-propagation")
     implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
     implementation("io.micronaut.flyway:micronaut-flyway")
     implementation("io.micronaut.kafka:micronaut-kafka")
     implementation("io.micronaut.kafka:micronaut-kafka-streams")
